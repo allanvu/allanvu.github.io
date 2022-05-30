@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>ToDo List</title>
-    <link rel="stylesheet" src="style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <input type="text" id="todo-title" /> <input type="date" id="todo-date" value=""> <button type="button" id="btnAdd" onclick="createTodo()">Create ToDo</button>
@@ -13,26 +13,52 @@
       const divTodoList = document.getElementById("todo-list");
       const btnAdd = document.getElementById("btnAdd");
       const btnDelete = document.getElementById("btnDelete");
-      let arrTodos = [
-        {id: "1", todoTitle: "Paint Deck", todoDate: "2022-02-12"},
-        {id: "2", todoTitle: "Wash Car", todoDate: "2022-03-19"},
-        {id: "3", todoTitle: "Practise Javascript", todoDate: "2023-12-04"}
-      ]
+      let arrTodos = [];
 
-      function addTodo(tID, tTitle, tDate){
-        arrTodos.push({ id: tID, todoTitle: tTitle, todoDate: tDate });
+      const localTodos = JSON.parse(localStorage.getItem('myToDos'));
+      if (Array.isArray(localTodos)){
+        arrTodos = localTodos;
+      } else {
+        arrTodos = [
+          {id: "1", todoTitle: "Paint Deck", todoDate: "2022-02-12"},
+          {id: "2", todoTitle: "Wash Car", todoDate: "2022-03-19"},
+          {id: "3", todoTitle: "Practise Javascript", todoDate: "2023-12-04"}
+        ]
       }
-      function remTodo(tID){
+
+      const addTodo = (tID, tTitle, tDate) => {
+        arrTodos.push({ id: tID, todoTitle: tTitle, todoDate: tDate });
+        saveTodo();
+      }
+
+      const remTodo = tID => {
         tID = ''+tID;
         arrTodos = arrTodos.filter(function(todo) {
           return (todo.id === tID)? false : true;
         })
+        saveTodo();
       }
 
-      function showTodos(){
+      const saveTodo = () => {
+        localStorage.setItem("myToDos", JSON.stringify(arrTodos));
+      }
+
+      const showTodos = () => {
         divTodoList.innerHTML = '';
+
         arrTodos.forEach((tdo) => {
-          document.getElementById('todo-list').innerHTML += '<p>' + tdo.todoTitle + ' - ' + tdo.todoDate + ' <button name="btnDelete" onclick="deleteTodo(' + tdo.id + ')">Delete Me</button></p>';
+          const newDiv = document.createElement("div");
+          newDiv.innerText = tdo.todoTitle + ' -- ' + tdo.todoDate;
+          newDiv.style = 'margin: 1em auto';
+
+          const newDelBtn = document.createElement("button");
+          newDelBtn.textContent = 'Delete Todo';
+          newDelBtn.style = 'background-color: white; color: red; margin-left: 1em; ';
+          newDelBtn.id = 'btnDelete';
+          newDelBtn.onclick = function() { deleteTodo(tdo.id);  }
+
+          newDiv.appendChild(newDelBtn);
+          divTodoList.appendChild(newDiv);
         });
       }
 
@@ -48,6 +74,7 @@
         remTodo(tID);
         showTodos();
       }
+      showTodos();
     </script>
   </body>
 </html>

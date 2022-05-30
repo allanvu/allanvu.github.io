@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h2>My ToDo List</h2>
     <input type="text" id="todo-title" /> <input type="date" id="todo-date" value=""> <button type="button" id="btnAdd" onclick="createTodo()">Create ToDo</button>
     <div class="" id="todo-list"></div>
 
@@ -13,7 +14,7 @@
       const divTodoList = document.getElementById("todo-list");
       const btnAdd = document.getElementById("btnAdd");
       const btnDelete = document.getElementById("btnDelete");
-      let arrTodos = [];
+      let arrTodos;
 
       const localTodos = JSON.parse(localStorage.getItem('myToDos'));
       if (Array.isArray(localTodos)){
@@ -22,15 +23,14 @@
         arrTodos = [
           {id: "1", todoTitle: "Paint Deck", todoDate: "2022-02-12"},
           {id: "2", todoTitle: "Wash Car", todoDate: "2022-03-19"},
-          {id: "3", todoTitle: "Practise Javascript", todoDate: "2023-12-04"}
+          {id: "3", todoTitle: "Learn Javascript", todoDate: "2023-12-04"}
         ]
       }
-
+      // MODEL
       const addTodo = (tID, tTitle, tDate) => {
         arrTodos.push({ id: tID, todoTitle: tTitle, todoDate: tDate });
         saveTodo();
       }
-
       const remTodo = tID => {
         tID = ''+tID;
         arrTodos = arrTodos.filter(function(todo) {
@@ -38,23 +38,23 @@
         })
         saveTodo();
       }
-
       const saveTodo = () => {
         localStorage.setItem("myToDos", JSON.stringify(arrTodos));
       }
 
+      // VIEW
       const showTodos = () => {
         divTodoList.innerHTML = '';
 
         arrTodos.forEach((tdo) => {
           const newDiv = document.createElement("div");
-          newDiv.innerText = tdo.todoTitle + ' -- ' + tdo.todoDate;
+          newDiv.innerText = tdo.todoTitle + ' -- Due: ' + tdo.todoDate;
           newDiv.style = 'margin: 1em auto';
 
           const newDelBtn = document.createElement("button");
           newDelBtn.textContent = 'Delete Todo';
           newDelBtn.style = 'background-color: white; color: red; margin-left: 1em; ';
-          newDelBtn.id = 'btnDelete';
+          newDelBtn.id = tdo.id;
           newDelBtn.onclick = function() { deleteTodo(tdo.id);  }
 
           newDiv.appendChild(newDelBtn);
@@ -62,6 +62,7 @@
         });
       }
 
+      // CONTROLLER
       function createTodo(){
         let todo_title = document.getElementById('todo-title').value;
         let todo_date = document.getElementById('todo-date').value;

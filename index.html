@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ToDo List</title>
+  </head>
+  <body>
+    <input type="text" id="todo-title" /> <input type="date" id="todo-date" value=""> <button type="button" id="btnAdd" onclick="createTodo()">Create ToDo</button>
+    <div class="" id="todo-list"></div>
+
+    <script type="text/javascript">
+      const btnAdd = document.getElementById("btnAdd");
+      let arrTodos = [
+        {id: "1", todoTitle: "Paint Deck", todoDate: "2022-02-12"},
+        {id: "2", todoTitle: "Wash Car", todoDate: "2022-03-19"},
+        {id: "3", todoTitle: "Practise Javascript", todoDate: "2023-12-04"}
+      ]
+
+      function addTodo(tID, tTitle, tDate){
+        let tT = { id: tID, todoTitle: tTitle, todoDate: tDate };
+        arrTodos.push(tT);
+      }
+
+      function showTodos(){
+
+        arrTodos.forEach((tdo) => {
+          document.getElementById('todo-list').innerHTML += '<p>' + tdo.todoTitle + ' - ' + tdo.todoDate + ' <button name="btnDelete" onclick="deleteTodo(' + tdo.id + ')">Delete Me</button></p>';
+        });
+      }
+
+      function createTodo(){
+        let todo_title = document.getElementById('todo-title').value;
+        let todo_date = document.getElementById('todo-date').value;
+        let todo_id = new Date().getTime().toString();
+
+        addTodo(todo_id, todo_title, todo_date);
+        showTodos();
+      }
+      function deleteTodo(tID) {
+        remTodo();
+        showTodos();
+      }
+    </script>
+  </body>
+</html>

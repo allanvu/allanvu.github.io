@@ -27,8 +27,9 @@
         ]
       }
       // MODEL
-      const addTodo = (tID, tTitle, tDate) => {
-        arrTodos.push({ id: tID, todoTitle: tTitle, todoDate: tDate });
+      const addTodo = (tTitle, tDate) => {
+        let todo_id = new Date().getTime().toString();
+        arrTodos.push({ id: todo_id, todoTitle: tTitle, todoDate: tDate });
         saveTodo();
       }
       const remTodo = tID => {
@@ -64,14 +65,16 @@
 
       // CONTROLLER
       function createTodo(){
-        let todo_title = document.getElementById('todo-title').value;
-        let todo_date = document.getElementById('todo-date').value;
-        let todo_id = new Date().getTime().toString();
+        const todo_title = document.getElementById('todo-title').value;
+        const todo_date = document.getElementById('todo-date').value;
 
-        addTodo(todo_id, todo_title, todo_date);
+        addTodo(todo_title, todo_date);
         showTodos();
       }
       function deleteTodo(tID) {
+        const delClicked = event.target;
+        const delClicked_id = delClicked.id
+        console.log('delClicked_id: '+delClicked_id+ ' / tID: '+tID);
         remTodo(tID);
         showTodos();
       }

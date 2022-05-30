@@ -21,6 +21,11 @@
         let tT = { id: tID, todoTitle: tTitle, todoDate: tDate };
         arrTodos.push(tT);
       }
+      function remTodo(tID){
+        arrTodos.filter(function(ele) {
+          return arrTodos["id"] = tID;
+        })
+      }
 
       function showTodos(){
         arrTodos.forEach((tdo) => {
@@ -37,7 +42,7 @@
         showTodos();
       }
       function deleteTodo(tID) {
-        remTodo();
+        remTodo(tID);
         showTodos();
       }
     </script>

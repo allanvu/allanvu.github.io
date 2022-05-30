@@ -10,6 +10,7 @@
 
     <script type="text/javascript">
       const btnAdd = document.getElementById("btnAdd");
+      const btnDelete = document.getElementById("btnDelete");
       let arrTodos = [
         {id: "1", todoTitle: "Paint Deck", todoDate: "2022-02-12"},
         {id: "2", todoTitle: "Wash Car", todoDate: "2022-03-19"},
@@ -22,7 +23,6 @@
       }
 
       function showTodos(){
-
         arrTodos.forEach((tdo) => {
           document.getElementById('todo-list').innerHTML += '<p>' + tdo.todoTitle + ' - ' + tdo.todoDate + ' <button name="btnDelete" onclick="deleteTodo(' + tdo.id + ')">Delete Me</button></p>';
         });

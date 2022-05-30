@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>ToDo List</title>
+    <link rel="stylesheet" src="style.css" />
   </head>
   <body>
     <input type="text" id="todo-title" /> <input type="date" id="todo-date" value=""> <button type="button" id="btnAdd" onclick="createTodo()">Create ToDo</button>
     <div class="" id="todo-list"></div>
 
     <script type="text/javascript">
+      const divTodoList = document.getElementById("todo-list");
       const btnAdd = document.getElementById("btnAdd");
       const btnDelete = document.getElementById("btnDelete");
       let arrTodos = [
@@ -18,14 +20,17 @@
       ]
 
       function addTodo(tID, tTitle, tDate){
-        let tT = { id: tID, todoTitle: tTitle, todoDate: tDate };
-        arrTodos.push(tT);
+        arrTodos.push({ id: tID, todoTitle: tTitle, todoDate: tDate });
       }
       function remTodo(tID){
-        arrTodos = arrTodos.filter(arrTodos[id] => arrTodos[id] !== tID)
+        tID = ''+tID;
+        arrTodos = arrTodos.filter(function(todo) {
+          return (todo.id === tID)? false : true;
+        })
       }
 
       function showTodos(){
+        divTodoList.innerHTML = '';
         arrTodos.forEach((tdo) => {
           document.getElementById('todo-list').innerHTML += '<p>' + tdo.todoTitle + ' - ' + tdo.todoDate + ' <button name="btnDelete" onclick="deleteTodo(' + tdo.id + ')">Delete Me</button></p>';
         });
